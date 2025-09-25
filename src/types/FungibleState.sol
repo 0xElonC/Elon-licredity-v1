@@ -6,8 +6,8 @@ type FungibleState is bytes32;
 using FungibleStateLibrary for FungibleState global;
 
 /// 转化为FungibleState，将index和balance存在一个内存中
-/// @param index 
-/// @param _balance 
+/// @param index 索引
+/// @param _balance 余额
 function toFungibleState(uint256 index,uint256 _balance) returns(FungibleState _state){
     assembly ("memory-safe") {
         //requires(index <= 0xffffffffffffffff && _balance <= 0xffffffffffffffffffffffffffffffff)
@@ -15,7 +15,7 @@ function toFungibleState(uint256 index,uint256 _balance) returns(FungibleState _
             mstore(0x00,0x35278d12)//Overflow()
             revert(0x1c,0x04)
         }   
-        state := or(shl(192,index),_balance);
+        _state := or(shl(192,index),_balance)
     }
 }
 
