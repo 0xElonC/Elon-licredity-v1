@@ -126,6 +126,33 @@ abstract contract BaseERC20 is IERC20 {
         return true;
     }
 
+    function balanceOf(address owner) public view returns(uint256 _balance){
+        assembly ("memory-safe") {
+            owner := and(owner,0xffffffffffffffffffffffffffffffffffffffff)
+
+            //_banlance = ownerData[owner].banlance
+            mstore(0x00,owner)
+            mstore(0x20,ownerData.slot)
+            _balance := sload(add(keccak256(0x00,0x40),0))
+        }
+    }
+
+    function allowance(address owner, address spender) public view returns(uint256 _allowance){
+        assembly ("memory-safe") {
+            owner := and(owner,0xffffffffffffffffffffffffffffffffffffffff)
+            spender := and(spender,0xffffffffffffffffffffffffffffffffffffffff)
+
+            //_allowance = ownerData[owner].allowances[spender]
+            mstore(0x00,owner)
+            mstore(0x20,ownerData.slot)
+            let ownerDataSlot := keccak256(0x00,0x40)
+
+            mstore(0x00,spender)
+            mstore(0x20,add(ownerDataSlot,1))
+            _allowance := sload(keccak256(0x00,0x40))
+        }  
+    }
+
     function _mint(address to, uint256 amount) internal {
         _transferAssembly(address(0), to, amount);
     }

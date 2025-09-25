@@ -8,3 +8,13 @@ pragma solidity ^0.8.28;
     uint256 constant LOKER_SELECT_SIZE = 0x04;
     uint256 constant LOKER_ZERO = 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe;
 
+
+    //error 
+    error ZeroAddress();
+
+    error NativeTransferFailed();
+
+    error ERC20TransferFaild();
+
+    error Overflow();
+

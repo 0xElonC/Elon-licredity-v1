@@ -9,13 +9,6 @@ contract TestToken is BaseERC20 {
         ownerData[msg.sender].balance = totalSupply;
     }
 
-    function balanceOf(address account) public view returns (uint256) {
-        return ownerData[account].balance;
-    }
-
-    function allowance(address owner, address spender) public view returns (uint256) {
-        return ownerData[owner].allowances[spender];
-    }
 
     function transfer(address to, uint256 amount) public override returns (bool) {
         require(to != address(0), "transfer to zero address");
