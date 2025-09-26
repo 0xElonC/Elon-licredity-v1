@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity ^0.8.28;
 
+import {IERC20} from "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
+
+
 type FungibleState is bytes32;
 
 using FungibleStateLibrary for FungibleState global;
@@ -8,7 +11,8 @@ using FungibleStateLibrary for FungibleState global;
 /// 转化为FungibleState，将index和balance存在一个内存中
 /// @param index 索引
 /// @param _balance 余额
-function toFungibleState(uint256 index,uint256 _balance) returns(FungibleState _state){
+/// [ 64 bits index | (空 64 bits) | 128 bits balance ]
+function toFungibleState(uint256 index,uint256 _balance)pure returns(FungibleState _state){
     assembly ("memory-safe") {
         //requires(index <= 0xffffffffffffffff && _balance <= 0xffffffffffffffffffffffffffffffff)
         if or(gt(index,0xffffffffffffffff),gt(_balance,0xffffffffffffffffffffffffffffffff)){

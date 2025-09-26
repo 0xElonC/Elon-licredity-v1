@@ -60,7 +60,7 @@ library FungibleLibrary{
                         success := 1
                     }
                     case 32 {
-                        returndatacopy(0x00,0x00,32)
+                        //returndatacopy(0x00,0x00,32)
                         success := eq(mload(0x00),1)
                     }
                     default {
